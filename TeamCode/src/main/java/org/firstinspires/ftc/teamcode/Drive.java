@@ -16,8 +16,8 @@ public class Drive extends Core {
     long prevTime = System.currentTimeMillis();
     boolean turboMode;
 
-    public void loop() {
-
+    public void loop()
+    {
         turboMode = gamepad1.y;
 
         prevTime = System.currentTimeMillis();
@@ -55,8 +55,9 @@ public class Drive extends Core {
             rot_power *= 0.6;
         }
 
-        // This is all we need to actually move the robot, method decs in Core.java
+        // This is all we need to actually move the robot, method decs in Core
         move(positive_power, negative_power, rot_power);
-        setLift((gamepad1.right_trigger * 0.25) - (gamepad1.left_trigger * 0.25));
+        setLift((gamepad1.right_trigger) - (gamepad1.left_trigger));
+        setClaw(gamepad1.a ? -0.2 : 0);
     }
 }

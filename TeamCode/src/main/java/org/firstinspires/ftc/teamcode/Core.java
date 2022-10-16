@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 public class Core extends OpMode {
-    DcMotor leftfront, rightfront, leftback, rightback, lift;
+    DcMotor leftfront, rightfront, leftback, rightback, lift, claw;
     BNO055IMU imu;
     BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
@@ -18,19 +18,22 @@ public class Core extends OpMode {
 
     public void init()
     {
-        leftfront = hardwareMap.dcMotor.get("leftFrontMotor");
+        leftfront = hardwareMap.dcMotor.get("m0");
         leftfront.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        rightfront = hardwareMap.dcMotor.get("rightFrontMotor");
+        rightfront = hardwareMap.dcMotor.get("m1");
         rightfront.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        leftback = hardwareMap.dcMotor.get("leftBackMotor");
-        leftback.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        rightback = hardwareMap.dcMotor.get("rightBackMotor");
+        rightback = hardwareMap.dcMotor.get("m2");
         rightback.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift = hardwareMap.dcMotor.get("liftMotor");
+        leftback = hardwareMap.dcMotor.get("m3");
+        leftback.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        lift = hardwareMap.dcMotor.get("lift");
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        claw = hardwareMap.dcMotor.get("claw");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
@@ -53,4 +56,6 @@ public class Core extends OpMode {
     {
         lift.setPower(input);
     }
+
+    public void setClaw(double input) { claw.setPower(input); }
 }
