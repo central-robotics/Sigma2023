@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -12,7 +13,13 @@ public class Drive extends Core {
     double positive_power, negative_power, rot_power;
     double joystick_x, joystick_y, joystick_power;
     double orientation;
+    long bLastPressed = -1;
+    boolean isClawClosed = false;
     Orientation gyro_angles;
+    double liftPower;
+
+    PID liftController = new PID(new PIDCoefficients(0.003, 0, 0));
+    double liftTarget;
     long prevTime = System.currentTimeMillis();
     boolean turboMode;
 
@@ -40,6 +47,34 @@ public class Drive extends Core {
         orientation = (joystick_x > 0) ? (Math.atan(-joystick_y / joystick_x) - Math.PI / 4) - theta :
                 (Math.atan(-joystick_y / joystick_x) + Math.PI - Math.PI / 4) - theta;
 
+        if (gamepad1.right_trigger > 0.5 && (lift.getCurrentPosition() < 4800 || gamepad1.dpad_left)) {
+            liftPower = 1;
+            liftTarget = lift.getCurrentPosition();
+        } else if (gamepad1.left_trigger > 0.5 && (lift.getCurrentPosition() > 0 || gamepad1.dpad_left)){
+            liftPower = -1;
+            liftTarget = lift.getCurrentPosition();
+        } else {
+            liftPower = liftController.getOutput(liftTarget - lift.getCurrentPosition(), 0);
+            // todo: lift motor goes slower in PID. solution: override PID when it's mildly far from it's target
+            // current problem: manual lift and then claw open leads to lift continuing to go up
+//            if (liftTarget - liftMotor.getCurrentPosition() > 150) {
+//                liftPower = -1;
+//            } else if (liftTarget == 0 && liftMotor.getCurrentPosition() > 150) {
+//                liftPower = 1;
+//            }
+        }
+
+        if (!gamepad1.dpad_left) {
+            if (liftTarget > 4800) {
+                liftTarget = 4800;
+            } else if (liftTarget < 0) {
+                liftTarget = 0;
+            }
+        }
+
+
+        lift.setPower(liftPower);
+
         telemetry.addData("theta", theta);
         telemetry.addData("orientation", orientation);
         telemetry.update();
@@ -57,7 +92,16 @@ public class Drive extends Core {
 
         // This is all we need to actually move the robot, method decs in Core
         move(positive_power, negative_power, rot_power);
-        setLift((gamepad1.right_trigger) - (gamepad1.left_trigger));
-        setClaw(gamepad1.a ? -0.2 : 0);
+
+        if (gamepad1.b && System.currentTimeMillis() - bLastPressed > 250) {
+            bLastPressed = System.currentTimeMillis();
+            isClawClosed = !isClawClosed;
+        }
+        if (isClawClosed){
+            claw.setPower(-0.3);
+        } else if (System.currentTimeMillis() - bLastPressed < 200) {
+            claw.setPower(0.15);
+        }
+
     }
 }
