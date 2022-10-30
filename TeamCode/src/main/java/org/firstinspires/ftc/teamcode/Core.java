@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.chsrobotics.ftccore.pipeline.Pipeline;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 //import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -32,9 +31,12 @@ public class Core extends OpMode {
 
         lift = hardwareMap.dcMotor.get("lift");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         claw = hardwareMap.dcMotor.get("claw");
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        claw.setDirection(DcMotorSimple.Direction.FORWARD);
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -52,10 +54,4 @@ public class Core extends OpMode {
         rightback.setPower(posinput-rotinput);
     }
 
-    public void setLift(double input)
-    {
-        lift.setPower(input);
-    }
-
-    public void setClaw(double input) { claw.setPower(input); }
 }
