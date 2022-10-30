@@ -4,9 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sigma2023.iml" filepath="$PROJECT_DIR$/.idea/modules/Sigma2023.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2071402933/Sigma2023.FTC-Core.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1355481437/Sigma2023.FTC-Core.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.main.iml" filepath="$PROJECT_DIR$/.idea/modules/FtcRobotController/Sigma2023.FtcRobotController.main.iml" />

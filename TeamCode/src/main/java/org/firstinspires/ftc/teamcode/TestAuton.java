@@ -19,6 +19,7 @@ public class TestAuton extends LinearOpMode
     public void runOpMode()
     {
         Config config = new Config.Builder()
+                .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
                 .setIMU("imu")
 //                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
@@ -33,6 +34,7 @@ public class TestAuton extends LinearOpMode
                 .build();
 
         telemetry.addLine("test");
+
         telemetry.update();
         waitForStart();
 
