@@ -19,18 +19,23 @@ public class TestAuton extends LinearOpMode
     public void runOpMode()
     {
         Config config = new Config.Builder()
-                .setDebugMode(true)
+                .setDebugMode(false)
                 .setDriveMotors("m0", "m1", "m2", "m3")
                 .setIMU("imu")
 //                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
-                .setPIDCoefficients(new PIDCoefficients(0.01, 0.00003, 0), new PIDCoefficients(0.25, 0.0004, 0))
+                .setPIDCoefficients(new PIDCoefficients(0.015, 0.000005, 0), new PIDCoefficients(0.2, 0.0005, 0))
                 .setOpMode(this)
                 .build();
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
         Pipeline pipeline = new Pipeline.Builder(manager)
-                .addLinearPath(new Position(0, 0, 0), new Position(1000, 0, 0), new Position(1000, 1000, 180))
+                .addLinearPath(
+                        new Position(0, 0, 0),
+                        new Position(1000, 0, 0),
+                        new Position(1000, 1000, 0),
+                        new Position(0, 1000, 0),
+                        new Position(0, 0, 0))
                 .build();
 
         telemetry.addLine("test");
