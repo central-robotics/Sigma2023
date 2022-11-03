@@ -23,18 +23,22 @@ public class TestAuton extends LinearOpMode
                 .setDriveMotors("m0", "m1", "m2", "m3")
                 .setIMU("imu")
 //                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
-                .setPIDCoefficients(new PIDCoefficients(0.015, 0.000005, 0), new PIDCoefficients(0.2, 0.0005, 0))
+                .setPIDCoefficients(new PIDCoefficients(1.9, 0.002, 0), new PIDCoefficients(550, 0.7, 0))
                 .setOpMode(this)
                 .build();
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
+
         Pipeline pipeline = new Pipeline.Builder(manager)
                 .addLinearPath(
                         new Position(0, 0, 0),
-                        new Position(1000, 0, 0),
-                        new Position(1000, 1000, 0),
-                        new Position(0, 1000, 0),
+                        new Position(500, 300, Math.PI / 2),
+                        new Position(2000, 500, 0),
+                        new Position(0, 2000, Math.PI / 2),
+                        new Position(400, 1500, 0),
+                        new Position(100, 100, 0),
+                        new Position(300, 300, Math.PI / 2),
                         new Position(0, 0, 0))
                 .build();
 
