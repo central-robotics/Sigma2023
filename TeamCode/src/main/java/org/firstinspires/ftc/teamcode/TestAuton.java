@@ -29,16 +29,13 @@ public class TestAuton extends LinearOpMode
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
-
         Pipeline pipeline = new Pipeline.Builder(manager)
                 .addLinearPath(
                         new Position(0, 0, 0),
                         new Position(500, 300, Math.PI / 2),
-                        new Position(2000, 500, 0),
-                        new Position(0, 2000, Math.PI / 2),
-                        new Position(400, 1500, 0),
-                        new Position(100, 100, 0),
-                        new Position(300, 300, Math.PI / 2),
+                        new Position(0, 0, 0))
+                .addLinearPath(new Position(0, 0, 0),
+                        new Position(500, 300, Math.PI / 2),
                         new Position(0, 0, 0))
                 .build();
 
