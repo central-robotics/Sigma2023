@@ -15,7 +15,7 @@ public class TestDrive extends LinearOpMode {
         Config config = new Config.Builder()
                 .setDriveMotors("m0", "m1", "m2", "m3")
                 .setIMU("imu")
-                .setTeleopValues(1, 1)
+                .setTeleopValues(1, .6)
 //                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
                 .setOpMode(this)
                 .build();
