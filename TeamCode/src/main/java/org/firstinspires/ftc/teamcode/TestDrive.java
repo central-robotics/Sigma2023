@@ -23,7 +23,7 @@ public class TestDrive extends LinearOpMode {
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
         Drive drive = new Drive.Builder(manager)
-                .bindActionToButton(Drive.Builder.GamepadButtons.A, new SampleIMUAction(manager), 1)
+                .bindActionToButton(Drive.Builder.GamepadButtons.A, new SampleIMUAction(manager), 1, false)
                 .Build();
 
         waitForStart();
