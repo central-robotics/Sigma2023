@@ -7,7 +7,7 @@ import com.chsrobotics.ftccore.pipeline.Pipeline;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
-public class NorthBlueAuto extends LinearOpMode
+public class NorthRedAuto extends LinearOpMode
 {
     @Override
     public void runOpMode()

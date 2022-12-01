@@ -8,16 +8,27 @@ import com.chsrobotics.ftccore.hardware.config.accessory.AccessoryType;
 import com.chsrobotics.ftccore.pipeline.Pipeline;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 public class TestAuton extends LinearOpMode
 {
+    public static Telemetry telem;
+    public static LinearOpMode opMode;
+
     @Override
     public void runOpMode()
     {
+        opMode = this;
+        telem = telemetry;
         Config config = new Config.Builder()
                 .setDebugMode(false)
                 .setDriveMotors("m0", "m1", "m2", "m3")
@@ -30,11 +41,10 @@ public class TestAuton extends LinearOpMode
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
         Pipeline pipeline = new Pipeline.Builder(manager)
-                .addCurvedPath(
-                        new Position(0, 0, 0),
-                        new Position(0, 800, 0),
-                        new Position(800, 800, 0),
-                        new Position(800, 0, 0))
+                .addLinearPath(
+                        new Position(0,305,0),
+        new Position(305,305,0)
+                )
                 .build();
 
         telemetry.addLine("test");

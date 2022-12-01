@@ -22,19 +22,6 @@ public class TestDrive extends LinearOpMode {
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
 
-        Drive drive = new Drive.Builder(manager)
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                .bindActionToButton(Drive.Builder.GamepadButtons.A, new SampleIMUAction(manager), 1, false)
-=======
-                .bindActionToButton(Drive.Builder.GamepadButtons.A, new SampleIMUAction(manager), 1, true)
->>>>>>> Stashed changes
-=======
-                .bindActionToButton(Drive.Builder.GamepadButtons.A, new SampleIMUAction(manager), 1, true)
->>>>>>> Stashed changes
-                .Build();
-
         waitForStart();
-        drive.runDriveLoop();
     }
 }
