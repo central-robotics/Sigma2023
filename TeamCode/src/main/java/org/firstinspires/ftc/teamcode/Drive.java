@@ -29,12 +29,12 @@ public class Drive extends Core {
 
         prevTime = System.currentTimeMillis();
         // Get all the info we from the gamepad
-        joystick_y = gamepad1.left_stick_y > 0 ? Math.pow(gamepad1.left_stick_y, 2) :
-                -Math.pow(gamepad1.left_stick_y, 2);
-        joystick_x = (gamepad1.left_stick_x == 0) ? 0.000001 :
-                (gamepad1.left_stick_x > 0 ? Math.pow(gamepad1.left_stick_x, 2) :
-                        -Math.pow(gamepad1.left_stick_x, 2));
+        joystick_y = -gamepad1.left_stick_y;
+        joystick_x = gamepad1.left_stick_x;
         rot_power = 0.4 * (gamepad1.right_stick_x);
+
+        if (joystick_x == 0)
+            joystick_x = 0.01;
 
         // Find out the distance of the joystick from resting position to control speed
         joystick_power = Math.sqrt(Math.pow(joystick_x, 2) + Math.pow(joystick_y, 2));
@@ -47,7 +47,7 @@ public class Drive extends Core {
         orientation = (joystick_x > 0) ? (Math.atan(-joystick_y / joystick_x) - Math.PI / 4) - theta :
                 (Math.atan(-joystick_y / joystick_x) + Math.PI - Math.PI / 4) - theta;
 
-        if (gamepad1.right_trigger > 0.5 && (lift.getCurrentPosition() < 4800 || gamepad1.dpad_left)) {
+        if (gamepad1.right_trigger > 0.5 && (lift.getCurrentPosition() < 11000 || gamepad1.dpad_left)) {
             liftPower = 1;
             liftTarget = lift.getCurrentPosition();
         } else if (gamepad1.left_trigger > 0.5 && (lift.getCurrentPosition() > 0 || gamepad1.dpad_left)){
@@ -77,6 +77,9 @@ public class Drive extends Core {
 
         telemetry.addData("theta", theta);
         telemetry.addData("orientation", orientation);
+        telemetry.addData("Pos", positive_power);
+        telemetry.addData("Neg", negative_power);
+        telemetry.addData("Hdg", rot_power);
         telemetry.update();
 
         // Pass that angle through a pair of wave functions to get the power for each corresponding pair of parallel wheels
@@ -84,11 +87,11 @@ public class Drive extends Core {
         positive_power = (orientation != 0) ? (joystick_power * Math.cos(orientation)) :
                 negative_power;
 
-        if (!turboMode) {
+        /*if (!turboMode) {
             negative_power *= 0.6;
             positive_power *= 0.6;
             rot_power *= 0.6;
-        }
+        }*/
 
         // This is all we need to actually move the robot, method decs in Core
         move(positive_power, negative_power, rot_power);
@@ -98,9 +101,15 @@ public class Drive extends Core {
             isClawClosed = !isClawClosed;
         }
         if (isClawClosed){
+<<<<<<< HEAD
+            claw.setPower(-0.4);
+        } else if (System.currentTimeMillis() - bLastPressed < 200) {
+            claw.setPower(0.3);
+=======
             claw.setPower(-0.3);
         } else if (System.currentTimeMillis() - bLastPressed < 200) {
             claw.setPower(0.15);
+>>>>>>> bc6f207a9fb32a1e79d3a8e9f7b2ab3f88f22858
         }
 
     }

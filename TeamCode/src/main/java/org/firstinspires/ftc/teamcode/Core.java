@@ -29,13 +29,13 @@ public class Core extends OpMode {
         leftback = hardwareMap.dcMotor.get("m3");
         leftback.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift = hardwareMap.dcMotor.get("lift");
+        lift = hardwareMap.dcMotor.get("l0");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        claw = hardwareMap.dcMotor.get("claw");
+        claw = hardwareMap.dcMotor.get("c0");
         claw.setDirection(DcMotorSimple.Direction.FORWARD);
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
@@ -48,10 +48,10 @@ public class Core extends OpMode {
 
     public void move(double posinput, double neginput, double rotinput)
     {
-        leftfront.setPower(-posinput-rotinput);
-        rightfront.setPower(neginput-rotinput);
-        leftback.setPower(-neginput-rotinput);
-        rightback.setPower(posinput-rotinput);
+        leftfront.setPower(-posinput+rotinput);
+        rightfront.setPower(neginput+rotinput);
+        leftback.setPower(-neginput+rotinput);
+        rightback.setPower(posinput+rotinput);
     }
 
 }
