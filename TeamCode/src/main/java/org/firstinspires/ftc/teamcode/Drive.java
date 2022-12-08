@@ -101,15 +101,9 @@ public class Drive extends Core {
             isClawClosed = !isClawClosed;
         }
         if (isClawClosed){
-<<<<<<< HEAD
             claw.setPower(-0.4);
         } else if (System.currentTimeMillis() - bLastPressed < 200) {
-            claw.setPower(0.3);
-=======
-            claw.setPower(-0.3);
-        } else if (System.currentTimeMillis() - bLastPressed < 200) {
             claw.setPower(0.15);
->>>>>>> bc6f207a9fb32a1e79d3a8e9f7b2ab3f88f22858
         }
 
     }
