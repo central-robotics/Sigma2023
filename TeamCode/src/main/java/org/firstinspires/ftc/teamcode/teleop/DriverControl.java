@@ -9,19 +9,25 @@ import com.chsrobotics.ftccore.teleop.Drive;
 import com.chsrobotics.ftccore.teleop.UserDriveLoop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
-import org.firstinspires.ftc.teamcode.auto.actions.SetArmAction;
-import org.firstinspires.ftc.teamcode.auto.actions.ToggleClawAction;
 
 @TeleOp(name="Sigma TeleOp")
 public class DriverControl extends LinearOpMode {
+    public static Telemetry telem;
     @Override
     public void runOpMode() throws InterruptedException {
+        telem = telemetry;
         Config config = new Config.Builder()
                 .setDriveMotors("m0", "m1", "m2", "m3")
+                .setMotorDirection(DcMotorSimple.Direction.FORWARD)
+                .reverseTheta()
                 .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "c0"))
+                .addAccessory(new Accessory(AccessoryType.MOTOR, "l1"))
+                .addAccessory(new Accessory(AccessoryType.SERVO, "c0"))
+                .addAccessory(new Accessory(AccessoryType.SERVO, "c1"))
                 .setIMU("imu")
                 .setTeleopValues(0.6, 0.6)
                 .setOpMode(this)
@@ -36,6 +42,17 @@ public class DriverControl extends LinearOpMode {
             long bumperLastPressed;
             boolean isPrecision;
 
+            private void setLiftPower(double val) {
+                telemetry.addData("val", val);
+                manager.accessoryMotors[0].setPower(val);
+                manager.accessoryMotors[1].setPower(-val);
+            }
+
+            private void setClawPower(double val) {
+                manager.accessoryServos[0].setPosition(val);
+                manager.accessoryServos[1].setPosition(0.9-val);
+            }
+
             @Override
             public void loop() {
                 ArmPositionAction armPositionAction = new ArmPositionAction(manager);
@@ -43,20 +60,24 @@ public class DriverControl extends LinearOpMode {
 
                 if (gamepad1.right_trigger > 0.1)
                 {
-                    if (armPos < 11000)
-                        manager.accessoryMotors[0].setPower(1);
+                    if (armPos < 3950)
+                        setLiftPower(0.6);
                     else
                         armPositionAction.execute();
                 } else if (gamepad1.left_trigger > 0.1)
                 {
                     if (armPos > 0)
-                        manager.accessoryMotors[0].setPower(-1);
+                        setLiftPower(-0.6);
                     else
                         armPositionAction.execute();
                 } else
                 {
                     armPositionAction.execute();
                 }
+                telemetry.addData("l0", manager.accessoryMotors[0].getCurrentPosition());
+                telemetry.addData("l1", manager.accessoryMotors[1].getCurrentPosition());
+                telemetry.addData("c0", clawClosed);
+                telemetry.update();
 
                 ArmPositionAction.targetArmPos = armPos;
 
@@ -66,16 +87,10 @@ public class DriverControl extends LinearOpMode {
                 }
 
                 if (clawClosed) {
-                    manager.accessoryMotors[1].setPower(0.1);
+                    setClawPower(0.85);
                 } else
                 {
-                    if (System.currentTimeMillis() - bLastPressed < 1250)
-                    {
-                        manager.accessoryMotors[1].setPower(-0.2);
-                    }
-                    else{
-                        manager.accessoryMotors[1].setPower(0);
-                    }
+                    setClawPower(0.5);
                 }
 
                 if (gamepad1.right_bumper && System.currentTimeMillis() - bumperLastPressed > 250) {

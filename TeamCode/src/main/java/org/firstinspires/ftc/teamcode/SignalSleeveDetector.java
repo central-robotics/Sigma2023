@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.chsrobotics.ftccore.hardware.HardwareManager;
 
+import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -27,12 +28,12 @@ public class SignalSleeveDetector {
 
             @Override
             public void onError(int errorCode) {
-                TestAuton.telem.addData("OpenCV failed with code", errorCode);
-                TestAuton.telem.update();
+                OpModeHolder.opMode.telemetry.addData("OpenCV failed with code", errorCode);
+                OpModeHolder.opMode.telemetry.update();
             }
         });
 
-        while (WebcamPipeline.getLastMat() == null && !TestAuton.opMode.isStopRequested()) {
+        while (WebcamPipeline.getLastMat() == null && !OpModeHolder.opMode.isStopRequested()) {
 
         }
 

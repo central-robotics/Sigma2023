@@ -8,6 +8,7 @@ import com.chsrobotics.ftccore.hardware.config.accessory.AccessoryType;
 import com.chsrobotics.ftccore.pipeline.Pipeline;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
@@ -26,13 +27,16 @@ public class SouthRedAuto extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
         OpModeHolder.opMode = this;
-        WebcamPipeline.clearLastMat();
+//        WebcamPipeline.clearLastMat();
         Config config = new Config.Builder()
                 .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "c0"))
-                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
+                .setMotorDirection(DcMotorSimple.Direction.REVERSE)
+//                .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
+//                .addAccessory(new Accessory(AccessoryType.MOTOR, "c0"))
+//                .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
+                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo0"))
+                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo1"))
                 .setOpMode(this)
                 .setIMU("imu")
                 .setPIDCoefficients(new PIDCoefficients(3.3, 0.001, 0), new PIDCoefficients(400, 0.03, 0))
@@ -42,39 +46,45 @@ public class SouthRedAuto extends LinearOpMode
 
         ArmPositionAction armPositionAction = new ArmPositionAction(manager);
         ToggleClawAction toggleClawAction = new ToggleClawAction(manager);
-        SignalSleeveDetector detector = new SignalSleeveDetector(manager);
+//        SignalSleeveDetector detector = new SignalSleeveDetector(manager);
 
         waitForStart();
 
-        int dots = detector.detectOrientation();
-        double parkingPos = dots == 1 ? 700 :
-                (dots == 2 ? 0 : -600);
+//        int dots = detector.detectOrientation();
+//        double parkingPos = dots == 1 ? 700 :
+//                (dots == 2 ? 0 : -600);
 //        telemetry.addData("Dots: ", detector.detectOrientation());
 //        telemetry.update();
 
         Pipeline pipeline = new Pipeline.Builder(manager)
-                .addContinuousAction(armPositionAction)
-                .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 1500))
-                .addAction(new SetArmAction(manager, 11000))
                 .addLinearPath(
-                        new Position(-600, 160,  0),
-                        new Position(-600, 770,  0),
-                        new Position(-600, 770,  7 * Math.PI / 4),
-                        new Position(-810, 990,  7 * Math.PI / 4)
+                        new Position(600, 0,  0),
+                        new Position(600, 600,  0),
+                        new Position(0, 600,  0),
+                        new Position(0, 0,  0)
                 )
-                .addAction(new FullStopAction(manager))
-                .addAction(new WaitAction(manager, armPositionAction))
-                .addAction(toggleClawAction)
-                .addAction(new SetArmAction(manager, 0))
-                .addLinearPath(
-                        new Position(-600, 770, 7 * Math.PI / 4),
-                        new Position(-600, 770, 0),
-                        new Position(-600, 1400, 0),
-                        new Position(parkingPos, 1400, 0)
-                )
-                .addAction(new FullStopAction(manager))
-                .addAction(new WaitAction(manager, armPositionAction))
+//                .addContinuousAction(armPositionAction)
+//                .addAction(toggleClawAction)
+//                .addAction(new DelayAction(manager, 1500))
+//                .addAction(new SetArmAction(manager, 11000))
+//                .addLinearPath(
+//                        new Position(-600, 160,  0),
+//                        new Position(-600, 770,  0),
+//                        new Position(-600, 770,  7 * Math.PI / 4),
+//                        new Position(-810, 990,  7 * Math.PI / 4)
+//                )
+//                .addAction(new FullStopAction(manager))
+//                .addAction(new WaitAction(manager, armPositionAction))
+//                .addAction(toggleClawAction)
+//                .addAction(new SetArmAction(manager, 0))
+//                .addLinearPath(
+//                        new Position(-600, 770, 7 * Math.PI / 4),
+//                        new Position(-600, 770, 0),
+//                        new Position(-600, 1400, 0),
+//                        new Position(parkingPos, 1400, 0)
+//                )
+//                .addAction(new FullStopAction(manager))
+//                .addAction(new WaitAction(manager, armPositionAction))
                 .build();
 
 
