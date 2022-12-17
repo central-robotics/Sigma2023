@@ -14,17 +14,20 @@ public class ToggleClawAction extends Action {
         this.manager = manager;
     }
 
+    private void setClawPower(double val) {
+        manager.accessoryServos[0].setPosition(val);
+        manager.accessoryServos[1].setPosition(0.91-val);
+    }
+
     public void execute()
     {
         isClosed = !isClosed;
-        if (isClosed)
-            manager.accessoryMotors[1].setPower(0.1);
-        else
+
+        if (isClosed) {
+            setClawPower(0.82);
+        } else
         {
-            long time = System.currentTimeMillis();
-            while (System.currentTimeMillis() - time < 2000)
-                manager.accessoryMotors[1].setPower(-0.15);
-            manager.accessoryMotors[1].setPower(0);
+            setClawPower(0.58);
         }
     }
 }

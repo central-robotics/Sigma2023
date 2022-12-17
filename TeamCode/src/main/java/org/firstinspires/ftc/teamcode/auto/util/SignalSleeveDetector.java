@@ -13,38 +13,16 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class SignalSleeveDetector {
-
-    private HardwareManager manager;
-
-    public SignalSleeveDetector(HardwareManager manager) {
-        this.manager = manager;
-        int cameraMonitorViewId = OpModeHolder.opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", OpModeHolder.opMode.hardwareMap.appContext.getPackageName());
-        OpenCvCamera cvCamera = OpenCvCameraFactory.getInstance().createWebcam(manager.getWebcam(), cameraMonitorViewId);
-        WebcamPipeline cameraPipeline = new WebcamPipeline();
-        cvCamera.setPipeline(cameraPipeline);
-        cvCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                cvCamera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-                OpModeHolder.opMode.telemetry.addData("OpenCV failed with code", errorCode);
-                OpModeHolder.opMode.telemetry.update();
-            }
-        });
-    }
+//        int cameraMonitorViewId = OpModeHolder.opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", OpModeHolder.opMode.hardwareMap.appContext.getPackageName());
+//        OpenCvCamera cvCamera = OpenCvCameraFactory.getInstance().createWebcam(manager.getWebcam(), cameraMonitorViewId);
 
 
-    public int detectOrientation() {
-
-        if (WebcamPipeline.getLastMat() == null) {
+    public static int detectOrientation(Mat mat) {
+        if (mat == null) {
             return 1;
         }
 
         // Do color detection
-        Mat mat = WebcamPipeline.getLastMat();
         Mat hsvMat = new Mat();
         Imgproc.cvtColor(mat, hsvMat, Imgproc.COLOR_RGB2HSV);
         Mat green = new Mat();
@@ -71,7 +49,7 @@ public class SignalSleeveDetector {
         int threshold = 200;
         OpModeHolder.opMode.telemetry.addData("blueIndex", blueIndex);
         OpModeHolder.opMode.telemetry.addData("greenIndex", greenIndex);
-        OpModeHolder.opMode.telemetry.update();
+//        OpModeHolder.opMode.telemetry.update();
         if (greenIndex > threshold || blueIndex > threshold) {
             if (greenIndex > blueIndex) {
                 return 2;
