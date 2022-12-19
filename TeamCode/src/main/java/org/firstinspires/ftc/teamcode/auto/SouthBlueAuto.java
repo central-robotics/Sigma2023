@@ -33,19 +33,23 @@ public class SouthBlueAuto extends LinearOpMode
                 .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
                 .setMotorDirection(DcMotorSimple.Direction.FORWARD)
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "l1"))
+//                .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
+//                .addAccessory(new Accessory(AccessoryType.MOTOR, "l1"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c0"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c1"))
                 .addAccessory(new Accessory(AccessoryType.WEBCAM, "webcam"))
-//                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo0"))
-//                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo1"))
+                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo0"))
+                .addAccessory(new Accessory(AccessoryType.ODOMETRY_POD, "odo1"))
                 .setOpMode(this)
                 .setIMU("imu")
                 .setPIDCoefficients(new PIDCoefficients(2.6, 0.0005, 0), new PIDCoefficients(700, 0.03, 0))
                 .build();
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
+
+        manager.accessoryOdometryPods[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        manager.accessoryOdometryPods[1].setDirection(DcMotorSimple.Direction.REVERSE);
+
         CVUtility cv = null;
         try {
             cv = new CVUtility(manager, telemetry);
@@ -72,77 +76,48 @@ public class SouthBlueAuto extends LinearOpMode
                 (dots == 2 ? 0 : 700);
         telemetry.update();
         Pipeline pipeline = new Pipeline.Builder(manager)
-                .addContinuousAction(armPositionAction)
-                .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 500))
-                .addAction(new SetArmAction(manager, 1700))
+//                .addContinuousAction(armPositionAction)
+//                .addAction(toggleClawAction)
+//                .addAction(new DelayAction(manager, 1000))
+//                .addAction(new SetArmAction(manager, 1700))
                 .addLinearPath(
-                        new Position(640, 150, 0),
-                        new Position(640, 1010, 0),
-                        new Position(640, 1010, Math.PI / 2),
-                        new Position(590, 1010, Math.PI / 2)
+//                        new Position(0, 80, 0),
+                        new Position(680, 0, 0),
+                        new Position(680, 1010, 0),
+                        new Position(680, 1010, Math.PI / 2)
                 )
-                .addAction(new FullStopAction(manager))
-                .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 300))
-                .addAction(new SetArmAction(manager, 800))
-                .addAction(new DelayAction(manager, 200))
+//                .addAction(new FullStopAction(manager))
+//                .addAction(toggleClawAction)
+//                .addAction(new DelayAction(manager, 300))
+//                .addAction(new SetArmAction(manager, 800))
+//                .addAction(new DelayAction(manager, 200))
                 .addLinearPath(
-                        new Position(590, 1010, Math.PI / 2),
-                        new Position(590, 1010, 7 * Math.PI / 4),
-                        new Position(680, 1200, 7 * Math.PI / 4)
+                        new Position(680, 1010, 7 * Math.PI / 4),
+                        new Position(710, 1190, 7 * Math.PI / 4)
                 )
-                .addAction(new FullStopAction(manager))
-                .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 300))
-                .addAction(new SetArmAction(manager, 4000))
-                .addAction(new DelayAction(manager, 300))
+//                .addAction(new FullStopAction(manager))
+//                .addAction(toggleClawAction)
+//                .addAction(new DelayAction(manager, 300))
+//                .addAction(new SetArmAction(manager, 4000))
+//                .addAction(new DelayAction(manager, 300))
                 .addLinearPath(
-                        new Position(300, 1350, 7 * Math.PI / 4),
+                        new Position(300, 1400, 7 * Math.PI / 4),
                         new Position(0, 1350, 7 * Math.PI / 4),
                         new Position(0, 1350, Math.PI / 4),
-                        new Position(-120, 1500, Math.PI / 4)
+                        new Position(-80, 1560, Math.PI / 4)
                 )
-                .addAction(new FullStopAction(manager))
-                .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 300))
-                .addAction(new SetArmAction(manager, 0))
+//                .addAction(new FullStopAction(manager))
+//                .addAction(toggleClawAction)
+//                .addAction(new DelayAction(manager, 300))
+//                .addAction(new SetArmAction(manager, 0))
                 .addLinearPath(
                         new Position(0, 1350, Math.PI / 4),
                         new Position(0, 1350, 0),
                         new Position(parkingPos, 1350, 0)
                 )
-                .addAction(new FullStopAction(manager))
-                .addAction(new WaitAction(manager, armPositionAction))
+//                .addAction(new FullStopAction(manager))
+//                .addAction(new WaitAction(manager, armPositionAction))
                 .build();
         pipeline.execute();
-//                .addLinearPath(
-//                        new Position(600, 0,  0),
-//                        new Position(600, 600,  0),
-//                        new Position(0, 600,  0),
-//                        new Position(0, 0,  0)
-//                )
-//                .addContinuousAction(armPositionAction)
-//                .addAction(toggleClawAction)
-//                .addAction(new DelayAction(manager, 1500))
-//                .addAction(new SetArmAction(manager, 11000))
-//                .addLinearPath(
-//                        new Position(600, 160,  0),
-//                        new Position(600, 770,  0),
-//                        new Position(600, 770,  7 * Math.PI / 4),
-//                        new Position(810, 990,  7 * Math.PI / 4)
-//                )
-//                .addAction(new FullStopAction(manager))
-//                .addAction(new WaitAction(manager, armPositionAction))
-//                .addAction(toggleClawAction)
-//                .addAction(new SetArmAction(manager, 0))
-//                .addLinearPath(
-//                        new Position(600, 770, 7 * Math.PI / 4),
-//                        new Position(600, 770, 0),
-//                        new Position(600, 1400, 0)
-//                        new Position(parkingPos, 1400, 0)
-//                )
-//                .addAction(new FullStopAction(manager))
-//                .addAction(new WaitAction(manager, armPositionAction))
     }
 }

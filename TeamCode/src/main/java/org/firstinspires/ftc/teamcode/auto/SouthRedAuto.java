@@ -74,10 +74,11 @@ public class SouthRedAuto extends LinearOpMode
         Pipeline pipeline = new Pipeline.Builder(manager)
                 .addContinuousAction(armPositionAction)
                 .addAction(toggleClawAction)
-                .addAction(new DelayAction(manager, 500))
+                .addAction(new DelayAction(manager, 800))
                 .addAction(new SetArmAction(manager, 1700))
                 .addLinearPath(
-                        new Position(-640, 150, 0),
+                        new Position(0, 80, 0),
+                        new Position(-640, 80, 0),
                         new Position(-640, 1010, 0),
                         new Position(-640, 1010, 3 * Math.PI / 2),
                         new Position(-590, 1010, 3 * Math.PI / 2)
@@ -101,7 +102,7 @@ public class SouthRedAuto extends LinearOpMode
                         new Position(-300, 1350, Math.PI / 4),
                         new Position(0, 1350, Math.PI / 4),
                         new Position(0, 1350, 7 * Math.PI / 4),
-                        new Position(120, 1500, 7 * Math.PI / 4)
+                        new Position(100, 1510, 7 * Math.PI / 4)
                 )
                 .addAction(new FullStopAction(manager))
                 .addAction(toggleClawAction)
