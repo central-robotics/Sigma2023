@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
+import org.firstinspires.ftc.teamcode.auto.actions.UpdateDashboardAction;
 import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.firstinspires.ftc.teamcode.auto.util.SignalSleeveDetector;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
@@ -20,7 +21,6 @@ import org.firstinspires.ftc.teamcode.auto.actions.FullStopAction;
 import org.firstinspires.ftc.teamcode.auto.actions.SetArmAction;
 import org.firstinspires.ftc.teamcode.auto.actions.ToggleClawAction;
 import org.firstinspires.ftc.teamcode.auto.actions.WaitAction;
-import org.firstinspires.ftc.teamcode.auto.util.WebcamPipeline;
 
 @Autonomous(name = "South Red Auto")
 public class SouthRedAuto extends LinearOpMode
@@ -56,6 +56,7 @@ public class SouthRedAuto extends LinearOpMode
 
         ArmPositionAction armPositionAction = new ArmPositionAction(manager);
         ToggleClawAction toggleClawAction = new ToggleClawAction(manager);
+        UpdateDashboardAction updateDashboardAction = new UpdateDashboardAction(manager, null);
 
         waitForStart();
 
@@ -73,6 +74,7 @@ public class SouthRedAuto extends LinearOpMode
         telemetry.update();
         Pipeline pipeline = new Pipeline.Builder(manager)
                 .addContinuousAction(armPositionAction)
+                .addContinuousAction(updateDashboardAction)
                 .addAction(toggleClawAction)
                 .addAction(new DelayAction(manager, 800))
                 .addAction(new SetArmAction(manager, 1700))
@@ -116,6 +118,7 @@ public class SouthRedAuto extends LinearOpMode
                 .addAction(new FullStopAction(manager))
                 .addAction(new WaitAction(manager, armPositionAction))
                 .build();
+        updateDashboardAction.localization = pipeline.localization;
         pipeline.execute();
 //                .addLinearPath(
 //                        new Position(600, 0,  0),

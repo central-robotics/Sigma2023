@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
+import org.firstinspires.ftc.teamcode.auto.actions.UpdateDashboardAction;
 import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.firstinspires.ftc.teamcode.auto.util.SignalSleeveDetector;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
@@ -28,7 +29,7 @@ public class SouthBlueAuto extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
         OpModeHolder.opMode = this;
-//        WebcamPipeline.clearLastMat();
+        WebcamPipeline.clearLastMat();
         Config config = new Config.Builder()
                 .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
@@ -60,6 +61,7 @@ public class SouthBlueAuto extends LinearOpMode
 
         ArmPositionAction armPositionAction = new ArmPositionAction(manager);
         ToggleClawAction toggleClawAction = new ToggleClawAction(manager);
+        UpdateDashboardAction updateDashboardAction = new UpdateDashboardAction(manager, null);
 
         waitForStart();
 
@@ -76,6 +78,7 @@ public class SouthBlueAuto extends LinearOpMode
                 (dots == 2 ? 0 : 700);
         telemetry.update();
         Pipeline pipeline = new Pipeline.Builder(manager)
+                .addContinuousAction(updateDashboardAction)
 //                .addContinuousAction(armPositionAction)
 //                .addAction(toggleClawAction)
 //                .addAction(new DelayAction(manager, 1000))
@@ -118,6 +121,7 @@ public class SouthBlueAuto extends LinearOpMode
 //                .addAction(new FullStopAction(manager))
 //                .addAction(new WaitAction(manager, armPositionAction))
                 .build();
+        updateDashboardAction.localization = pipeline.localization;
         pipeline.execute();
     }
 }
