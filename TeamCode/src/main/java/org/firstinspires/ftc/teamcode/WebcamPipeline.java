@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
+import org.firstinspires.ftc.teamcode.auto.AutonCore;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -11,8 +11,8 @@ public class WebcamPipeline extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         if (lastMat == null) {
-            OpModeHolder.opMode.telemetry.addLine("Webcam ready");
-            OpModeHolder.opMode.telemetry.update();
+            AutonCore.opMode.telemetry.addLine("Webcam ready");
+            AutonCore.opMode.telemetry.update();
         }
         lastMat = input;
         return input;

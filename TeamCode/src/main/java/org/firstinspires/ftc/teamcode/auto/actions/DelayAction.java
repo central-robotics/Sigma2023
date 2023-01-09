@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto.actions;
 
 import com.chsrobotics.ftccore.actions.Action;
 import com.chsrobotics.ftccore.hardware.HardwareManager;
+import com.chsrobotics.ftccore.pipeline.Pipeline;
 
 public class DelayAction extends Action {
 
@@ -17,6 +18,8 @@ public class DelayAction extends Action {
     {
         delay += System.currentTimeMillis();
         while(System.currentTimeMillis() < delay)
-        {}
+        {
+            Pipeline.getInstance().runContinuousActions();
+        }
     }
 }

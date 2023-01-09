@@ -9,6 +9,7 @@ import com.chsrobotics.ftccore.teleop.Drive;
 import com.chsrobotics.ftccore.teleop.UserDriveLoop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -25,10 +26,8 @@ public class DriverControl extends LinearOpMode {
         telem = telemetry;
         Config config = new Config.Builder()
                 .setDriveMotors("m0", "m1", "m2", "m3")
-                .setMotorDirection(DcMotorSimple.Direction.FORWARD)
-                .reverseTheta()
+                .setMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
-                .addAccessory(new Accessory(AccessoryType.MOTOR, "l1"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c0"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c1"))
                 .setIMU("imu")
@@ -37,6 +36,11 @@ public class DriverControl extends LinearOpMode {
                 .build();
 
         HardwareManager manager = new HardwareManager(config, hardwareMap);
+
+        manager.driveMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        manager.driveMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        manager.driveMotors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        manager.driveMotors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         UserDriveLoop armLoop = new UserDriveLoop(manager, this) {
             long bLastPressed = 0;
@@ -51,7 +55,6 @@ public class DriverControl extends LinearOpMode {
 
                 telemetry.addData("val", val);
                 manager.accessoryMotors[0].setPower(val);
-                manager.accessoryMotors[1].setPower(-val);
             }
 
             private void setClawPower(double val) {
@@ -75,13 +78,13 @@ public class DriverControl extends LinearOpMode {
                 if (gamepad1.right_trigger > 0.1)
                 {
                     if (armPos - armOverrideOffset < 4000 || isArmOverrideActive)
-                        setLiftPower(0.7);
+                        setLiftPower(gamepad1.right_trigger);
                     else
                         armPositionAction.execute();
                 } else if (gamepad1.left_trigger > 0.1)
                 {
                     if (armPos - armOverrideOffset > 0 || isArmOverrideActive)
-                        setLiftPower(-0.7);
+                        setLiftPower(-gamepad1.left_trigger);
                     else
                         armPositionAction.execute();
                 } else
@@ -89,7 +92,6 @@ public class DriverControl extends LinearOpMode {
                     armPositionAction.execute();
                 }
                 telemetry.addData("l0", manager.accessoryMotors[0].getCurrentPosition());
-                telemetry.addData("l1", manager.accessoryMotors[1].getCurrentPosition());
                 telemetry.addData("c0", clawClosed);
                 telemetry.addData("bDiff", System.currentTimeMillis() - bLastPressed);
 

@@ -4,6 +4,7 @@ import android.graphics.Path;
 
 import com.chsrobotics.ftccore.hardware.HardwareManager;
 
+import org.firstinspires.ftc.teamcode.auto.AutonCore;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
@@ -47,8 +48,6 @@ public class SignalSleeveDetector {
         }
 
         int threshold = 200;
-        OpModeHolder.opMode.telemetry.addData("blueIndex", blueIndex);
-        OpModeHolder.opMode.telemetry.addData("greenIndex", greenIndex);
 //        OpModeHolder.opMode.telemetry.update();
         if (greenIndex > threshold || blueIndex > threshold) {
             if (greenIndex > blueIndex) {
