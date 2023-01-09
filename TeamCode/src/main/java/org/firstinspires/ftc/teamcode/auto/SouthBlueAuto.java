@@ -16,6 +16,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
+import org.firstinspires.ftc.teamcode.auto.actions.UpdateDashboardAction;
+import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.firstinspires.ftc.teamcode.auto.util.SignalSleeveDetector;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
 import org.firstinspires.ftc.teamcode.auto.actions.DelayAction;
@@ -28,8 +30,9 @@ import org.firstinspires.ftc.teamcode.auto.actions.WaitAction;
 public class SouthBlueAuto extends LinearOpMode
 {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
+        OpModeHolder.opMode = this;
+        WebcamPipeline.clearLastMat();
         Config config = new Config.Builder()
                 .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
@@ -158,7 +161,6 @@ public class SouthBlueAuto extends LinearOpMode
                 .addAction(new FullStopAction(manager))
                 .addAction(new WaitAction(manager, armPositionAction))
                 .build();
-
         pipeline.execute();
     }
 }

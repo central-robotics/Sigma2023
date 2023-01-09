@@ -16,6 +16,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
+import org.firstinspires.ftc.teamcode.auto.actions.UpdateDashboardAction;
+import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.firstinspires.ftc.teamcode.auto.util.SignalSleeveDetector;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
 import org.firstinspires.ftc.teamcode.auto.actions.DelayAction;
@@ -23,7 +25,6 @@ import org.firstinspires.ftc.teamcode.auto.actions.FullStopAction;
 import org.firstinspires.ftc.teamcode.auto.actions.SetArmAction;
 import org.firstinspires.ftc.teamcode.auto.actions.ToggleClawAction;
 import org.firstinspires.ftc.teamcode.auto.actions.WaitAction;
-import org.firstinspires.ftc.teamcode.auto.util.WebcamPipeline;
 
 @Autonomous(name = "Left Side")
 public class SouthRedAuto extends LinearOpMode
@@ -69,6 +70,7 @@ public class SouthRedAuto extends LinearOpMode
 
         ArmPositionAction armPositionAction = new ArmPositionAction(manager);
         ToggleClawAction toggleClawAction = new ToggleClawAction(manager);
+
         toggleClawAction.execute();
 
         waitForStart();
@@ -158,7 +160,6 @@ public class SouthRedAuto extends LinearOpMode
                 .addAction(new FullStopAction(manager))
                 .addAction(new WaitAction(manager, armPositionAction))
                 .build();
-
         pipeline.execute();
     }
 }
