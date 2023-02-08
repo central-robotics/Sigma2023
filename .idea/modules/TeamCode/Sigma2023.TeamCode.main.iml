@@ -40,7 +40,7 @@
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Sigma2023.FtcRobotController.main" />
-    <orderEntry type="module" module-name="Sigma2023.FTC-Core.main" />
+    <orderEntry type="module" module-name="core.Sigma2023.FTC-Core.main" />
     <orderEntry type="library" name="Gradle: org.threeten:threetenbp:1.5.1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.1.0" level="project" />

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import com.chsrobotics.ftccore.engine.navigation.control.PIDParams;
 import com.chsrobotics.ftccore.engine.navigation.path.PrecisionMode;
 import com.chsrobotics.ftccore.engine.navigation.path.Tolerances;
 import com.chsrobotics.ftccore.engine.navigation.path.TrapezoidalMotionProfile;
@@ -51,7 +52,7 @@ public class AutonCore {
                 .setOdometryWheelProperties(8192, 70, -80.962, -28.575)
                 .setOpMode(opMode)
                 .setIMU("imu")
-                .setPIDCoefficients(new PIDCoefficients(4.5, 0.0002, 0), new PIDCoefficients(750, 0.03, 0))
+                .setPIDCoefficients(new PIDParams(4.5, 0.0002, 0), new PIDParams(750, 0.03, 0))
                 .setNavigationTolerances(new Tolerances(45, 0.15))
                 .setHighPrecisionTolerances(new Tolerances(17, 0.09))
                 .build();
@@ -101,7 +102,7 @@ public class AutonCore {
 
         opMode.telemetry.update();
 
-        Pipeline pipeline = new Pipeline.Builder(manager, flip)
+        Pipeline pipeline = new Pipeline.Builder(manager)
                 .addContinuousAction(armPositionAction)
                 .addAction(new DelayAction(manager, 200))
                 .addAction(new SetArmAction(manager, 3900))

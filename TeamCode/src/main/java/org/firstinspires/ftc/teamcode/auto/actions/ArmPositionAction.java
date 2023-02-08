@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto.actions;
 
 import com.chsrobotics.ftccore.actions.ContinuousAction;
 import com.chsrobotics.ftccore.engine.navigation.control.PID;
+import com.chsrobotics.ftccore.engine.navigation.control.PIDParams;
 import com.chsrobotics.ftccore.hardware.HardwareManager;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.teleop.DriverControl;
 public class ArmPositionAction extends ContinuousAction {
 
     public static double targetArmPos;
-    private final PID controller = new PID(new PIDCoefficients(0.002, 0, 0));
+    private final PID controller = new PID(new PIDParams(0.002, 0, 0));
     private double prevArmPos;
     private long prevTime;
 

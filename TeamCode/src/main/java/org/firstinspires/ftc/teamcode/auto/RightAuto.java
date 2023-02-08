@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import com.chsrobotics.ftccore.engine.navigation.control.PIDParams;
 import com.chsrobotics.ftccore.engine.navigation.path.PrecisionMode;
 import com.chsrobotics.ftccore.engine.navigation.path.Tolerances;
 import com.chsrobotics.ftccore.engine.navigation.path.TrapezoidalMotionProfile;
@@ -14,10 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
-import org.firstinspires.ftc.teamcode.auto.actions.UpdateDashboardAction;
-import org.firstinspires.ftc.teamcode.auto.util.OpModeHolder;
 import org.firstinspires.ftc.teamcode.auto.util.SignalSleeveDetector;
 import org.firstinspires.ftc.teamcode.auto.actions.ArmPositionAction;
 import org.firstinspires.ftc.teamcode.auto.actions.DelayAction;
@@ -27,16 +25,15 @@ import org.firstinspires.ftc.teamcode.auto.actions.ToggleClawAction;
 import org.firstinspires.ftc.teamcode.auto.actions.WaitAction;
 
 @Autonomous(name = "Right Side")
-public class SouthBlueAuto extends LinearOpMode
+public class RightAuto extends LinearOpMode
 {
     @Override
-    public void runOpMode() throws InterruptedException {
-        OpModeHolder.opMode = this;
-        WebcamPipeline.clearLastMat();
+    public void runOpMode() throws InterruptedException
+	{
         Config config = new Config.Builder()
                 .setDebugMode(true)
                 .setDriveMotors("m0", "m1", "m2", "m3")
-                .setMotorDirection(DcMotorSimple.Direction.REVERSE)
+//                .setMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .addAccessory(new Accessory(AccessoryType.MOTOR, "l0"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c0"))
                 .addAccessory(new Accessory(AccessoryType.SERVO, "c1"))
@@ -46,7 +43,8 @@ public class SouthBlueAuto extends LinearOpMode
                 .setOdometryWheelProperties(8192, 70, -80.962, -28.575)
                 .setOpMode(this)
                 .setIMU("imu")
-                .setPIDCoefficients(new PIDCoefficients(4.5, 0.0002, 0), new PIDCoefficients(750, 0.03, 0))
+                .setPIDCoefficients(new PIDParams(4.5, 0.0002, 0), new PIDParams(750, 0.03, 0))
+                .setMotionProfilePIDCoeffs(new PIDParams(5.0, 0.0002, 0))
                 .setNavigationTolerances(new Tolerances(45, 0.15))
                 .setHighPrecisionTolerances(new Tolerances(17, 0.09))
                 .build();
@@ -55,6 +53,8 @@ public class SouthBlueAuto extends LinearOpMode
 
         manager.accessoryOdometryPods[0].setDirection(DcMotorSimple.Direction.REVERSE);
         manager.accessoryOdometryPods[1].setDirection(DcMotorSimple.Direction.REVERSE);
+
+        manager.accessoryMotors[0].setDirection(DcMotorSimple.Direction.REVERSE);
 
         manager.driveMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         manager.driveMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
